@@ -2,6 +2,5 @@
 <resources>
     <string name="app_name">Miok\'s Android Labs</string>
     <string name="hello_message">안녕, 월드!</string>
-    <string name="hello_message">안녕, 월드!</string>
     <string name="button_message">나는 버튼이에요</string>
 </resources>
