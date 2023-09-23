@@ -3,8 +3,13 @@ plugins {
 }
 
 android {
+
     namespace = "algonquin.cst2335.kim00476"
     compileSdk = 33
+
+    buildFeatures{
+        viewBinding = true
+    }
 
     defaultConfig {
         applicationId = "algonquin.cst2335.kim00476"
@@ -26,6 +31,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
