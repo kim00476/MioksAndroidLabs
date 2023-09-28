@@ -1,64 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.MainActivity"
-    android:gravity="center"
-    android:layout_margin="10dp">
-
-    <TextView
-        android:textSize="20dp"
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_message" />
+    android:layout_margin="10dp"
+    tools:context=".ui.MainActivity">
 
     <Button
-        android:textSize="20dp"
-        android:id="@+id/myButton"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="@string/button_message"/>
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/button1"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/myEditText"
+    <Button
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/editMessage"
-        android:textSize="20dp" />
+        android:layout_marginStart="32dp"
+        android:text="@string/button2"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button1"
+        app:layout_constraintTop_toTopOf="@+id/button1" />
 
-    <CheckBox
-        android:id="@+id/myCheckBox"
+    <Button
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you drink coffee?"/>
-
-    <Switch
-        android:id="@+id/mySwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Do you drink coffee?" />
-
-    <RadioButton
-        android:id="@+id/myRadioButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Do you drink coffee?"/>
+        android:layout_marginStart="32dp"
+        android:text="@string/button3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
 
     <ImageView
-            android:id="@+id/imageTest"
-            android:src="@drawable/icon2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    <ImageButton
-        android:id="@+id/imageBtn"
-        android:src="@drawable/icon2"
+        android:id="@+id/flagView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/button1"
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        app:srcCompat="@drawable/flag" />
 
-</LinearLayout>
+    <Switch
+        android:id="@+id/spin_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/spin_message"
+        app:layout_constraintBottom_toBottomOf="@+id/flagView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flagView"
+        app:layout_constraintVertical_bias="0.493" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

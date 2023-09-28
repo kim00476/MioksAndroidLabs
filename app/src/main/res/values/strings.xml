@@ -3,7 +3,12 @@
     <string name="hello_message">Hello World!</string>
     <string name="button_message">I\'m a button</string>
     <string name="editMessage">I\'m an EditText</string>
-<!--    <string name="hintText">Write something here</string>-->
+    <string name="spin_message">Spin flag</string>
+    <string name="button1">Button</string>
+    <string name="button2">Button</string>
+    <string name="button3">Button</string>
+
+    <!--    <string name="hintText">Write something here</string>-->
 <!--    <string name="checkMessage">Do you drink coffee?</string>-->
 <!--    <string name="switchMessage">Do you drink coffee?</string>-->
 <!--    <string name="radioMessage">Do you drink coffee?</string>-->
