@@ -38,27 +38,28 @@ public class SecondActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);  //this is file.
-
         Intent newPage = getIntent();
         String userInput = newPage.getStringExtra("LoginEmail");
-        String phoneFile = prefs.getString("tel:", " ");
-
         binding.WelcomeMessage.setText("Welcome back " + userInput);
-        binding.editTextPhone.setText(phoneFile);
 
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);  //this is file.
+
+        String phoneFile = prefs.getString("tel:", " ");
+        binding.editTextPhone.setText(phoneFile);
 
         File mySandbox = getFilesDir();
         String path = mySandbox.getAbsolutePath();
 
         File file = new File( path, "Picture.png");
+
         if(mySandbox.exists())
         {
             Bitmap theImage = BitmapFactory.decodeFile("Picture.png");
             binding.imageView.setImageBitmap(theImage);
         }
 //        else {
-//            binding.imageView.setImageResource(R.drawable.imageView);
+//            binding.imageView.setImageResource(android.R.drawable.ic_menu_camera);
+//
 //        }
 
         binding.button.setOnClickListener(click -> {
@@ -94,6 +95,7 @@ public class SecondActivity extends AppCompatActivity {
 
                             try{ FileOutputStream fOut = openFileOutput("Picture.png", Context.MODE_PRIVATE);
                                 thumbnail.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+
                                 fOut.flush();
                                 fOut.close();
 
