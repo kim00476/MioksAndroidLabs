@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This class represents the password checking app.
@@ -32,20 +33,10 @@ public class MainActivity extends AppCompatActivity {
             String userInput = et.getText().toString();
             char[] passwordChars = userInput.toCharArray();
 
-            if (checkPasswordComplexity(userInput)) {
-                tv.setText("You shall not pass!");
-            } else if (containsSpecialCharacter(passwordChars)){
-                tv.setText("You shall not pass!");
-            } else {
+            if (checkPasswordComplexity(userInput) && containsSpecialCharacter(passwordChars)) {
                 tv.setText("Your password meets the requirements.");
-
-//                if (!checkPasswordComplexity(password)) {
-//                    Toast.makeText(this, "Password must have at least one upper case letter, one lower case letter, and one digit.", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                if (!containsSpecialCharacter(passwordChars)) {
-//                    Toast.makeText(this, "Password must contain at least one special character.", Toast.LENGTH_SHORT).show();
-//                }
+            } else {
+                tv.setText("You shall not pass!");
             }
         });
     }
@@ -62,13 +53,15 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < pw.length(); i++) {
             char c = pw.charAt(i);
             if (Character.isLowerCase(c)) {
+                Toast.makeText(this, "Your password are only Lower Case.", Toast.LENGTH_SHORT).show();
                 foundLowerCase = true;
             } else if (Character.isUpperCase(c)) {
+                Toast.makeText(this, "Your password are only Upper Case.", Toast.LENGTH_SHORT).show();
                 foundUpperCase = true;
             } else if (Character.isDigit(c)) {
+                Toast.makeText(this, "Your password are only Number Case.", Toast.LENGTH_SHORT).show();
                 foundNumber = true;
-            } else {
-                return false;
+
             }
         }
         return foundLowerCase && foundUpperCase && foundNumber;
@@ -109,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             case ')':
             case '*':
             case '_':
+                Toast.makeText(this, "Your password are only Special Characters.", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return false;
