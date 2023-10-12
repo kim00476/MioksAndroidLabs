@@ -47,8 +47,7 @@ public class SecondActivity extends AppCompatActivity {
         String phoneFile = prefs.getString("tel:", " ");
         binding.editTextPhone.setText(phoneFile);
 
-//        File mySandbox = getFilesDir();
-//        String path = mySandbox.getAbsolutePath();
+
         File path =  getFilesDir();
 
         File file = new File( path, "Picture.png");
@@ -58,10 +57,6 @@ public class SecondActivity extends AppCompatActivity {
             Bitmap theImage = BitmapFactory.decodeFile( file.getAbsolutePath());
             binding.imageView.setImageBitmap(theImage);
         }
-//        else {
-//            binding.imageView.setImageResource(android.R.drawable.ic_menu_camera);
-//
-//        }
 
         binding.button.setOnClickListener(click -> {
 
@@ -91,8 +86,6 @@ public class SecondActivity extends AppCompatActivity {
                             Intent data = result.getData();
                             Bitmap thumbnail = data.getParcelableExtra("data");
                             binding.imageView.setImageBitmap(thumbnail);
-
-//                            FileOutputStream fOut = null;
 
                             try{ FileOutputStream fOut = openFileOutput("Picture.png", Context.MODE_PRIVATE);
                                 thumbnail.compress(Bitmap.CompressFormat.PNG, 100, fOut);
