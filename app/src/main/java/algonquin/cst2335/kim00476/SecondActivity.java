@@ -47,14 +47,15 @@ public class SecondActivity extends AppCompatActivity {
         String phoneFile = prefs.getString("tel:", " ");
         binding.editTextPhone.setText(phoneFile);
 
-        File mySandbox = getFilesDir();
-        String path = mySandbox.getAbsolutePath();
+//        File mySandbox = getFilesDir();
+//        String path = mySandbox.getAbsolutePath();
+        File path =  getFilesDir();
 
         File file = new File( path, "Picture.png");
 
-        if(mySandbox.exists())
+        if(path.exists())
         {
-            Bitmap theImage = BitmapFactory.decodeFile("Picture.png");
+            Bitmap theImage = BitmapFactory.decodeFile( file.getAbsolutePath());
             binding.imageView.setImageBitmap(theImage);
         }
 //        else {
