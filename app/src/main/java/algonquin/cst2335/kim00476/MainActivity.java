@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
      * @return Returns true if the password meets the function.
      */
     boolean checkPasswordComplexity(String pw) {
+
         boolean foundUpperCase = false;
         boolean foundLowerCase = false;
         boolean foundNumber = false;
