@@ -4,7 +4,11 @@ plugins {
 
 android {
     namespace = "algonquin.cst2335.kim00476"
-    compileSdk = 33
+    compileSdk = 34
+
+    buildFeatures{
+        viewBinding=true
+    }
 
     defaultConfig {
         applicationId = "algonquin.cst2335.kim00476"
@@ -30,8 +34,9 @@ android {
 
 dependencies {
 
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     //    implementation(fileTree(mapOf("dir" to "C:\\Users\\Miok Kim\\AppData\\Local\\Android\\Sdk\\platforms\\android-33", "include" to listOf("*.aar", "*.jar"), "exclude" to listOf())))
     testImplementation("junit:junit:4.13.2")
