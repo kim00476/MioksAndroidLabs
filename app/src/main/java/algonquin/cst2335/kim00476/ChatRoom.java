@@ -1,32 +1,38 @@
 package algonquin.cst2335.kim00476;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
-import algonquin.cst2335.kim00476.data.ChatMessage;
 import algonquin.cst2335.kim00476.data.ChatRoomViewModel;
 import algonquin.cst2335.kim00476.databinding.ActivityChatRoomBinding;
 import algonquin.cst2335.kim00476.databinding.ReceiveRowLayoutBinding;
 import algonquin.cst2335.kim00476.databinding.SentRowLayoutBinding;
 
 public class ChatRoom extends AppCompatActivity {
-
     ArrayList<ChatMessage> messages; // in the beginning, there are no messages
     ActivityChatRoomBinding binding;
-
     ChatRoomViewModel chatModel ;
+    ChatMessageDAO mDao; //Declare the dao here
     RecyclerView.Adapter<MyRowHolder> myAdapter; //to hold the object below
 //    RecyclerView.Adapter<MyRowHolder> myAdapter = null;
     @Override
@@ -38,11 +44,36 @@ public class ChatRoom extends AppCompatActivity {
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         messages = chatModel.messages.getValue();
-//        messages = chatModel.messages.getValue();
+
+        //load messages from the database                                                           //can be any name
+        MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
+
+        //intialize the variable
+        mDao = db.cmDAO(); //get a DAO object to interact with the database
+        // if ChatMessageDAO mDao = db.cmDAO(); local variable and garbage collector, delete
+
+        // load all messages from database //background thread
+//        Executor thread = Executors.newSingleThreadExecutor();
+//        thread.execute(() -> {
+//
+//            List<ChatMessage> fromDatabase = mDao.getAllMessages(); //return a List
+//            messages.addAll(fromDatabase); // this adds all messages from the database
+//
+//        });
+
+        //end of loading from database
 
         // might be null
         if(messages == null) {
-            chatModel.messages.postValue(messages = new ArrayList<ChatMessage>());
+            chatModel.messages.postValue(messages = new ArrayList<>());
+
+            Executor thread2 = Executors.newSingleThreadExecutor();
+            thread2.execute(() ->
+            {
+                messages.addAll( mDao.getAllMessages() ); //Once you get the data from database
+
+                runOnUiThread( () ->  binding.recycleView.setAdapter( myAdapter )); //You can then load the RecyclerView
+            });
         }
 
         setContentView(binding.getRoot());
@@ -52,11 +83,20 @@ public class ChatRoom extends AppCompatActivity {
             String currentDateAndTime = sdf.format(new Date());
             ChatMessage chatMessage = new ChatMessage(userMessage, currentDateAndTime, true);
             messages.add(chatMessage);
-
 //            myAdapter.notifyItemInserted(messages.size()-1 );  //redraw the screen
             binding.userMessages.setText(""); // remove the text in EditText
             // tell the recycle view that there is new data
             myAdapter.notifyDataSetChanged();  //redraw the screen
+
+            // add to database on another thread
+            Executor thread1 = Executors.newSingleThreadExecutor();
+            // this is on a background thread
+            thread1.execute((  ) -> {
+                chatMessage.id = mDao.insertMessage(chatMessage); /*this runs in another thread*/
+                Log.d("TAG","The id created is :" + chatMessage.id);
+            }); //the body of run()
+
+            ; //get the ID from the database
         });
 
         binding.receiveButton.setOnClickListener(cl ->{
@@ -70,6 +110,14 @@ public class ChatRoom extends AppCompatActivity {
             binding.userMessages.setText(""); // remove the text in EditText
             // tell the recycle view that there is new data
             myAdapter.notifyDataSetChanged();  //redraw the screen
+
+            // add to database on another thread
+            Executor thread1 = Executors.newSingleThreadExecutor();
+            // this is on a background thread
+            thread1.execute((  ) -> {
+                chatMessage.id = mDao.insertMessage(chatMessage); /*this runs in another thread*/
+                Log.d("TAG","The id created is :" + chatMessage.id);
+            }); //the body of run()
         });
 
         //will draw the recycle view
@@ -146,11 +194,51 @@ public class ChatRoom extends AppCompatActivity {
 
         // use find view by id
         public MyRowHolder(@NonNull View itemView) {
-
             super(itemView);
+
+            itemView.setOnClickListener(clk ->{
+                int position = getAbsoluteAdapterPosition();
+                ChatMessage m = messages.get(position);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
+
+                builder.setMessage("Do you want to delete this message:" + messageText.getText());
+                builder.setTitle("Question");
+                builder.setNegativeButton("No", (dialog, cl) -> {  });
+                builder.setPositiveButton("Yes", (dialog, cl) -> {
+                    /*is yes is clicked*/
+                    Executor thread1 = Executors.newSingleThreadExecutor();
+                    // this is on a background thread
+                    thread1.execute((  ) -> {
+                    //delete form database
+                    mDao.deleteMessage(m); //which chat message to delete?
+
+                });
+                messages.remove(position); //remove form the array list row: 0
+                myAdapter.notifyDataSetChanged();
+
+                //give feedback : anything on screen
+                Snackbar.make(messageText, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                    .setAction("Undo", ck -> {
+
+                        Executor thread2 = Executors.newSingleThreadExecutor();
+                        // this is on a background thread
+                        thread2.execute((  ) -> {
+
+                        mDao.insertMessage(m);
+                    });
+                        messages.add(position,m);
+                        myAdapter.notifyDataSetChanged();
+                    })
+                    .show();
+            });
+
+                builder.create().show(); // this has to be last
+        });
             //all you do here is theRootConstraintLayout.findViewById
             messageText = itemView.findViewById(R.id.textView2);
             timeText = itemView.findViewById(R.id.textView3);
-        }
+
     }
+}
 }
