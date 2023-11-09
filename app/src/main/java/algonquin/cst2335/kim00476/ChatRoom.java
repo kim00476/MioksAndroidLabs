@@ -34,7 +34,7 @@ public class ChatRoom extends AppCompatActivity {
     ChatRoomViewModel chatModel ;
     ChatMessageDAO mDao; //Declare the dao here
     RecyclerView.Adapter<MyRowHolder> myAdapter; //to hold the object below
-//    RecyclerView.Adapter<MyRowHolder> myAdapter = null;
+    //    RecyclerView.Adapter<MyRowHolder> myAdapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +128,7 @@ public class ChatRoom extends AppCompatActivity {
                         //determine which layout to load at row position
 
                         ChatMessage message = messages.get(position);
-                    return message.isSentButton() ? 0 :1;
+                        return message.isSentButton() ? 0 :1;
 
 //                        if(messages.charAt(0) == '1') // first letter
 //                            return 0;
@@ -144,51 +144,51 @@ public class ChatRoom extends AppCompatActivity {
 //                else
 //                      return 1; // for even rows
                     }
-            @NonNull
-            @Override                                               //which layout to load
-            public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    @NonNull
+                    @Override                                               //which layout to load
+                    public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                //viewType will either be 0 or 1
-                if(viewType == 0) {
-                    //1)load a XML layout
-                    SentRowLayoutBinding binding =                          //parent is incase matchparent
-                            SentRowLayoutBinding.inflate(getLayoutInflater(), parent, false);
+                        //viewType will either be 0 or 1
+                        if(viewType == 0) {
+                            //1)load a XML layout
+                            SentRowLayoutBinding binding =                          //parent is incase matchparent
+                                    SentRowLayoutBinding.inflate(getLayoutInflater(), parent, false);
 
-                    //2) call our Constructor below
-                    return new MyRowHolder(binding.getRoot());//getRoot returns a ConstrainLayout with TextViews inside
-                }
-                else { //viewType == 1
-                    ReceiveRowLayoutBinding binding =                          //parent is incase matchparent
-                            ReceiveRowLayoutBinding.inflate(getLayoutInflater(), parent, false);
+                            //2) call our Constructor below
+                            return new MyRowHolder(binding.getRoot());//getRoot returns a ConstrainLayout with TextViews inside
+                        }
+                        else { //viewType == 1
+                            ReceiveRowLayoutBinding binding =                          //parent is incase matchparent
+                                    ReceiveRowLayoutBinding.inflate(getLayoutInflater(), parent, false);
 
-                    //2) call our Constructor below
-                    return new MyRowHolder(binding.getRoot());//getRoot returns a ConstrainLayout with TextViews inside
+                            //2) call our Constructor below
+                            return new MyRowHolder(binding.getRoot());//getRoot returns a ConstrainLayout with TextViews inside
 
-                }
-            }
+                        }
+                    }
 
 
-            @Override                                                   //row number
-            public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
-                ChatMessage chatMessage = messages.get(position);
+                    @Override                                                   //row number
+                    public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
+                        ChatMessage chatMessage = messages.get(position);
 
-                //where you overwrite the default text
+                        //where you overwrite the default text
 //                holder.messageView.setText(messages.get(position));
-                holder.messageText.setText(chatMessage.getMessage());
-                holder.timeText.setText(chatMessage.getTimeSent()); //???
-            }
-            // returns the number of rows to draw
-            @Override
-            public int getItemCount() {
-                return messages.size(); //show as many rows as items in the array
-            }
-        });
+                        holder.messageText.setText(chatMessage.getMessage());
+                        holder.timeText.setText(chatMessage.getTimeSent()); //???
+                    }
+                    // returns the number of rows to draw
+                    @Override
+                    public int getItemCount() {
+                        return messages.size(); //show as many rows as items in the array
+                    }
+                });
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     class MyRowHolder extends RecyclerView.ViewHolder {
-            //where you overwrite the default text
+        //where you overwrite the default text
         public TextView messageText;
         public TextView timeText;
 
@@ -210,35 +210,35 @@ public class ChatRoom extends AppCompatActivity {
                     Executor thread1 = Executors.newSingleThreadExecutor();
                     // this is on a background thread
                     thread1.execute((  ) -> {
-                    //delete form database
-                    mDao.deleteMessage(m); //which chat message to delete?
+                        //delete form database
+                        mDao.deleteMessage(m); //which chat message to delete?
 
-                });
-                messages.remove(position); //remove form the array list row: 0
-                myAdapter.notifyDataSetChanged();
-
-                //give feedback : anything on screen
-                Snackbar.make(messageText, "You deleted message #" + position, Snackbar.LENGTH_LONG)
-                    .setAction("Undo", ck -> {
-
-                        Executor thread2 = Executors.newSingleThreadExecutor();
-                        // this is on a background thread
-                        thread2.execute((  ) -> {
-
-                        mDao.insertMessage(m);
                     });
-                        messages.add(position,m);
-                        myAdapter.notifyDataSetChanged();
-                    })
-                    .show();
-            });
+                    messages.remove(position); //remove form the array list row: 0
+                    myAdapter.notifyDataSetChanged();
+
+                    //give feedback : anything on screen
+                    Snackbar.make(messageText, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                            .setAction("Undo", ck -> {
+
+                                Executor thread2 = Executors.newSingleThreadExecutor();
+                                // this is on a background thread
+                                thread2.execute((  ) -> {
+
+                                    mDao.insertMessage(m);
+                                });
+                                messages.add(position,m);
+                                myAdapter.notifyDataSetChanged();
+                            })
+                            .show();
+                });
 
                 builder.create().show(); // this has to be last
-        });
+            });
             //all you do here is theRootConstraintLayout.findViewById
             messageText = itemView.findViewById(R.id.textView2);
             timeText = itemView.findViewById(R.id.textView3);
 
+        }
     }
-}
 }
