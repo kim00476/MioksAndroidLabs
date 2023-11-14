@@ -99,6 +99,7 @@ public class ChatRoom extends AppCompatActivity {
             ; //get the ID from the database
         });
 
+
         binding.receiveButton.setOnClickListener(cl ->{
             String  userMessage = binding.userMessages.getText().toString();
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
