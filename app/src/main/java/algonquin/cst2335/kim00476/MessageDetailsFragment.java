@@ -27,8 +27,9 @@ public class MessageDetailsFragment extends Fragment {
 
         binding.messageId.setText(selected.message);
         binding.timeId.setText(selected.timeSent);
-//        binding.sendId.setText(""+selected.)
-        binding.databaseId.setText("Id = " + selected.id);
+//        binding.sendId.setText(selected.m ?"selected selected.sentOrReceive?"True":"False");
+        binding.databaseId.setText(Long.toString(selected.id));
+//        binding.databaseId.setText("Id is " + selected.id);
         //set textViews
         return binding.getRoot();
     }
