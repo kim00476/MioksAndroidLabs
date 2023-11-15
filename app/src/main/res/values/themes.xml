@@ -3,6 +3,10 @@
     <style name="Base.Theme.MioksAndroidLabs" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
         <!-- Primary brand color.-->
         <item name="colorPrimary">@color/my_primary</item>
 
@@ -14,6 +18,7 @@
 
         <!--text color-->
         <item name="android:textColor">@color/my_text</item>
+
     </style>
 
     <style name="Theme.MioksAndroidLabs" parent="Base.Theme.MioksAndroidLabs" />

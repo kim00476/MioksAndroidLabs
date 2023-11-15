@@ -12,9 +12,12 @@ import androidx.room.Room;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -45,6 +48,8 @@ public class ChatRoom extends AppCompatActivity {
 
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         //get the data from the ViewModel
+
+        setSupportActionBar(binding.myToolbar);
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         messages = chatModel.messages.getValue();
@@ -196,6 +201,8 @@ public class ChatRoom extends AppCompatActivity {
                         holder.timeText.setText(chatMessage.getTimeSent()); //???
                     }
 
+
+
                     // returns the number of rows to draw
                     @Override
                     public int getItemCount() {
@@ -204,6 +211,63 @@ public class ChatRoom extends AppCompatActivity {
                 });
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+            getMenuInflater().inflate(R.menu.my_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.item_2:
+  /*              AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
+
+                builder.setMessage("Do you want to delete this message:" + messageText.getText());
+                builder.setTitle("Question");
+                builder.setNegativeButton("No", (dialog, cl) -> {  });
+                builder.setPositiveButton("Yes", (dialog, cl) -> {
+                    /*is yes is clicked* /
+               Executor thread1 = Executors.newSingleThreadExecutor();
+                // this is on a background thread
+               thread1.execute(() -> {
+                    //delete form database
+                    mDao.deleteMessage(m); //which chat message to delete?
+
+                    });
+                    messages.remove(position); //remove form the array list row: 0
+                    myAdapter.notifyDataSetChanged();
+
+                    //give feedback : anything on screen
+                /* Snackbar.make(messageText, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                            .setAction("Undo", ck -> {
+
+                                Executor thread2 = Executors.newSingleThreadExecutor();
+                                // this is on a background thread
+                                thread2.execute((  ) -> {
+
+                                    mDao.insertMessage(m);
+                                });
+                                messages.add(position,m);
+                                myAdapter.notifyDataSetChanged();
+                            })
+                            .show();
+
+                });
+
+                builder.create().show(); */
+                break;
+
+            case R.id.about:
+                Toast.makeText(this,"Version 1.0, created by Miok Kim", Toast.LENGTH_LONG ).show();
+                break;
+        }
+        return true;
     }
 
     class MyRowHolder extends RecyclerView.ViewHolder {
