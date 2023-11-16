@@ -40,6 +40,7 @@ public class ChatRoom extends AppCompatActivity {
     ChatMessageDAO mDao; //Declare the dao here
     RecyclerView.Adapter<MyRowHolder> myAdapter; //to hold the object below
 
+    MessageDetailsFragment chatFragment;
 
     //    RecyclerView.Adapter<MyRowHolder> myAdapter = null;
     @Override
@@ -59,7 +60,7 @@ public class ChatRoom extends AppCompatActivity {
 //            String message = newMessageValue.message;
 //            String time = newMessageValue.timeSent;
 
-            MessageDetailsFragment chatFragment = new MessageDetailsFragment(newMessageValue);
+            chatFragment = new MessageDetailsFragment(newMessageValue);
             FragmentManager fMgr = getSupportFragmentManager();
             FragmentTransaction tx= fMgr.beginTransaction();
             tx.addToBackStack(" ");
@@ -226,41 +227,47 @@ public class ChatRoom extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.item_2:
-  /*              AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
 
-                builder.setMessage("Do you want to delete this message:" + messageText.getText());
+              ChatMessage removedMessage = chatModel.selectedMessage.getValue();
+              int position = messages.indexOf(removedMessage);
+
+              AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
+
+                builder.setMessage("Do you want to delete this message:" + removedMessage.getMessage());
+
                 builder.setTitle("Question");
                 builder.setNegativeButton("No", (dialog, cl) -> {  });
                 builder.setPositiveButton("Yes", (dialog, cl) -> {
-                    /*is yes is clicked* /
+                    /*is yes is clicked*/
                Executor thread1 = Executors.newSingleThreadExecutor();
                 // this is on a background thread
                thread1.execute(() -> {
                     //delete form database
-                    mDao.deleteMessage(m); //which chat message to delete?
+                   getSupportFragmentManager().beginTransaction().remove(chatFragment).commit();
+                    mDao.deleteMessage(removedMessage); //which chat message to delete?
 
                     });
                     messages.remove(position); //remove form the array list row: 0
                     myAdapter.notifyDataSetChanged();
 
                     //give feedback : anything on screen
-                /* Snackbar.make(messageText, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                 Snackbar.make(binding.getRoot(), "You deleted message #" + position, Snackbar.LENGTH_LONG)
                             .setAction("Undo", ck -> {
 
                                 Executor thread2 = Executors.newSingleThreadExecutor();
                                 // this is on a background thread
                                 thread2.execute((  ) -> {
 
-                                    mDao.insertMessage(m);
+                                    mDao.insertMessage(removedMessage);
                                 });
-                                messages.add(position,m);
+                                messages.add(position,removedMessage);
                                 myAdapter.notifyDataSetChanged();
                             })
                             .show();
 
                 });
 
-                builder.create().show(); */
+                builder.create().show();
                 break;
 
             case R.id.about:
