@@ -7,6 +7,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 /**
  * This class represents the password checking app.
  * @author Miok Kim
@@ -19,25 +22,43 @@ public class MainActivity extends AppCompatActivity {
     EditText et = null;
     /** This holds the text at the bottom of the screen */
     Button btn = null;
+    protected String cityName;
+
+    protected RequestQueue queue = null;
+
+//    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv = findViewById(R.id.textView);
-        et = findViewById(R.id.passwordText);
-        btn = findViewById(R.id.loginBtn);
+        ActivityMainBinding binding = ActivityMainBinding.inflate( getLayoutInflater() );
 
-        btn.setOnClickListener(click -> {
-            String userInput = et.getText().toString();
-            char[] passwordChars = userInput.toCharArray();
+        binding.getForecast.setOnClickListener(click -> {
+                    cityName = binding.editText.getText().toString();
+                    String stringURL ="";
 
-            if (checkPasswordComplexity(userInput) && containsSpecialCharacter(passwordChars)) {
-                tv.setText("Your password meets the requirements.");
-            } else {
-                tv.setText("You shall not pass!");
-            }
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
+                            (response -> { },
+                            (error -> {  });
+                    queue.add(request);
+
+
+//        tv = findViewById(R.id.textView);
+//        et = findViewById(R.id.passwordText);
+//        btn = findViewById(R.id.loginBtn);
+//
+//        btn.setOnClickListener(click -> {
+//            String userInput = et.getText().toString();
+//            char[] passwordChars = userInput.toCharArray();
+//
+//            if (checkPasswordComplexity(userInput) && containsSpecialCharacter(passwordChars)) {
+//                tv.setText("Your password meets the requirements.");
+//            } else {
+//                tv.setText("You shall not pass!");
+//            }
+
         });
     }
 
