@@ -12,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:text="Tyoe in ther name of city"
+        android:text="Type in the name of city"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,30 +22,91 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/passwordText"
+        android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Type city name here"
-        android:inputType="textPassword"
-        android:textSize="25dp"
+        android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/loginBtn"
+        android:id="@+id/getForecast"
         android:layout_width="match_parent"
         android:layout_height="62dp"
         android:layout_marginBottom="50dp"
-        android:text="LOGIN"
+        android:text="GET FORECAST"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordText"
         app:layout_constraintVertical_bias="0.0" />
+
+
+        <TextView
+            android:id="@+id/temp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Temp goes here"
+            android:textSize="20dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/maxTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Max goes here"
+            android:textSize="20dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/temp" />
+
+        <TextView
+            android:id="@+id/minTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Min goes here"
+            android:textSize="20dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/maxTemp" />
+
+        <TextView
+            android:id="@+id/humitidy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hunidity goes here"
+            android:textSize="20dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/minTemp" />
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/humitidy"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description goes here"
+            android:textSize="20dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon" />
 
 </LinearLayout>
